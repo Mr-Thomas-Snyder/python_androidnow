@@ -1,4 +1,5 @@
 import pytest
+import time
 import os
 import subprocess
 import json
@@ -22,16 +23,29 @@ def ensure_device():
     else:
         print("\n[Setup] Device already connected.")
 
-@pytest.fixture(scope="session")
-def driver():
+@pytest.fixture(scope="function")
+def driver(request):
     drv = ADBDriver()
+    eng = UIEngine(drv)
+    print(f"\n[Setup] Resetting app for clean state...")
     drv.reset_app()
     drv.clear_logcat()
     drv.start_app()
+    
+    # Auto-Bootstrap: Complete onboarding unless the test handles it explicitly
+    onboarding = OnboardingPage(drv, eng)
+    skip_bootstrap = any(x in request.node.name for x in ["onboarding", "exclusive"])
+    if not skip_bootstrap and onboarding.is_on_screen():
+        print("[Setup] Bootstrapping onboarding (Headlines)...")
+        onboarding.follow_topic("Headlines")
+        onboarding.wait_for_sync()
+        onboarding.click_done()
+        time.sleep(2)
+        
     yield drv
     drv.shell("am force-stop com.google.samples.apps.nowinandroid.demo.debug")
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def engine(driver):
     return UIEngine(driver)
 

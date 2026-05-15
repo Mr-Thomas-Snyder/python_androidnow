@@ -1,36 +1,36 @@
 [
     {
-        "name": "test_comprehensive_onboarding_flow",
+        "name": "test_1_comprehensive_onboarding_flow",
         "status": "PASSED",
-        "duration": 13.13,
+        "duration": 28.5,
         "error": "",
         "screenshot": null
     },
     {
-        "name": "test_feed_interaction_25_percent_rule",
-        "status": "FAILED",
-        "duration": 8.46,
-        "error": "feed = <pages.feed_page.FeedPage object at 0x0000020055024910>, driver = <core.adb_driver.ADBDriver object at 0x0000020054FCB770>\n\n    def test_feed_interaction_25_percent_rule(feed, driver):\n        \"\"\"\n        Scenario: Verify news card interaction using the 25% Rule.\n        \"\"\"\n        assert feed.is_on_screen(), \"Should be on Feed screen\"\n    \n        # Click card\n        assert feed.click_first_news_card(), \"Should click news card using 25% rule\"\n    \n        # Verify transition to browser/detail (Standard check)\n        time.sleep(2)\n        focused = driver.get_focused_window()\n>       assert \"chrome\" in focused.lower() or \"browser\" in focused.lower() or \"webview\" in focused.lower(), \\\n            f\"Expected browser/webview in focus, but got: {focused}\"\nE       AssertionError: Expected browser/webview in focus, but got: mFocusedWindow=Window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.MainActivity}\nE       assert ('chrome' in 'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}' or 'browser' in 'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}' or 'webview' in 'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}')\nE        +  where 'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}' = <built-in method lower of str object at 0x000002005501C7C0>()\nE        +    where <built-in method lower of str object at 0x000002005501C7C0> = 'mFocusedWindow=Window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.MainActivity}'.lower\nE        +  and   'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}' = <built-in method lower of str object at 0x000002005501C7C0>()\nE        +    where <built-in method lower of str object at 0x000002005501C7C0> = 'mFocusedWindow=Window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.MainActivity}'.lower\nE        +  and   'mfocusedwindow=window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.mainactivity}' = <built-in method lower of str object at 0x000002005501C7C0>()\nE        +    where <built-in method lower of str object at 0x000002005501C7C0> = 'mFocusedWindow=Window{9afba6e u0 com.google.samples.apps.nowinandroid.demo.debug/com.google.samples.apps.nowinandroid.MainActivity}'.lower\n\ntests\\test_comprehensive_flow.py:43: AssertionError",
-        "screenshot": "screenshot_test_feed_interaction_25_percent_rule_225622.png"
-    },
-    {
-        "name": "test_interests_sync_loop",
-        "status": "FAILED",
-        "duration": 24.7,
-        "error": "feed = <pages.feed_page.FeedPage object at 0x0000020055024410>, interests = <pages.interests_page.InterestsPage object at 0x0000020054FCB8C0>\n\n    def test_interests_sync_loop(feed, interests):\n        \"\"\"\n        Scenario: Verify topic following syncs from Interests to For You.\n        \"\"\"\n        # 1. Start on Feed, navigate to Interests\n        assert feed.is_on_screen()\n        feed.navigate_to(\"Interests\")\n        assert interests.is_on_screen()\n    \n        # 2. Follow a new topic\n        topic = \"Compose\"\n        interests.follow_topic(topic)\n        time.sleep(1)\n    \n        # 3. Return to Feed\n        interests.navigate_to(\"For you\")\n        assert feed.is_on_screen()\n    \n        # 4. Verify topic chip is present\n>       assert feed.has_topic_chip(topic), f\"Feed should now show {topic} chip\"\nE       AssertionError: Feed should now show Compose chip\nE       assert False\nE        +  where False = has_topic_chip('Compose')\nE        +    where has_topic_chip = <pages.feed_page.FeedPage object at 0x0000020055024410>.has_topic_chip\n\ntests\\test_extended_scenarios.py:23: AssertionError",
-        "screenshot": "screenshot_test_interests_sync_loop_225647.png"
-    },
-    {
-        "name": "test_bookmarking_flow",
+        "name": "test_2_interests_sync_loop",
         "status": "PASSED",
-        "duration": 30.29,
+        "duration": 65.6,
         "error": "",
         "screenshot": null
     },
     {
-        "name": "test_exclusive_topic_propagation",
+        "name": "test_3_feed_interaction_fast_transition",
         "status": "PASSED",
-        "duration": 18.57,
+        "duration": 9.16,
+        "error": "",
+        "screenshot": null
+    },
+    {
+        "name": "test_4_bookmarking_flow",
+        "status": "PASSED",
+        "duration": 44.92,
+        "error": "",
+        "screenshot": null
+    },
+    {
+        "name": "test_5_exclusive_topic_propagation",
+        "status": "PASSED",
+        "duration": 33.37,
         "error": "",
         "screenshot": null
     }

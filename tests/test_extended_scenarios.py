@@ -31,7 +31,7 @@ def test_5_exclusive_topic_propagation(onboarding, feed, driver):
     driver.reset_app()
     driver.start_app()
     
-    topic = "UI"
+    topic = "Headlines"
     onboarding.follow_topic(topic)
     onboarding.wait_for_sync()
     onboarding.click_done()

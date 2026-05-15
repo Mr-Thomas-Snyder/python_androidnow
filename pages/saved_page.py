@@ -1,3 +1,4 @@
+import time
 from pages.base_page import BasePage
 
 class SavedPage(BasePage):
@@ -8,4 +9,4 @@ class SavedPage(BasePage):
         return self.is_visible(resource_id="newsResourceCard:")
 
     def is_on_screen(self):
-        return self.is_visible(text="Saved") or self.is_visible(text="Nothing saved")
+        return self.engine.find_element(text="Saved", timeout=10) or self.engine.find_element(text="Nothing saved", timeout=10)

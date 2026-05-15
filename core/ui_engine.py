@@ -36,17 +36,19 @@ class UIEngine:
 
     def get_elements(self):
         """Fetch current hierarchy and parse into UIElement objects."""
-        xml_path = self.driver.get_hierarchy()
-        if not os.path.exists(xml_path):
-            return []
-        
-        try:
-            tree = ET.parse(xml_path)
-            root = tree.getroot()
-            return [UIElement(node) for node in root.findall('.//node')]
-        except Exception as e:
-            print(f"Error parsing hierarchy: {e}")
-            return []
+        # Retry logic for empty/flaky dumps during transitions
+        for _ in range(3):
+            xml_path = self.driver.get_hierarchy()
+            if os.path.exists(xml_path) and os.path.getsize(xml_path) > 0:
+                try:
+                    tree = ET.parse(xml_path)
+                    root = tree.getroot()
+                    return [UIElement(node) for node in root.findall('.//node')]
+                except Exception:
+                    pass
+            import time
+            time.sleep(1)
+        return []
 
     def find_element(self, text=None, resource_id=None, content_desc=None, timeout=10):
         """Find an element with polling."""
@@ -55,9 +57,18 @@ class UIEngine:
         while time.time() - start_time < timeout:
             elements = self.get_elements()
             for el in elements:
-                if text and text in el.text: return el
-                if resource_id and resource_id in el.resource_id: return el
-                if content_desc and content_desc in el.content_desc: return el
+                if text:
+                    target = text.lower()
+                    el_text = el.text.lower() if el.text else ""
+                    if target in el_text: return el
+                if resource_id:
+                    target = resource_id.lower()
+                    el_res = el.resource_id.lower() if el.resource_id else ""
+                    if target in el_res: return el
+                if content_desc:
+                    target = content_desc.lower()
+                    el_desc = el.content_desc.lower() if el.content_desc else ""
+                    if target in el_desc: return el
             time.sleep(0.5)
         return None
 
@@ -69,8 +80,14 @@ class UIEngine:
             found = False
             elements = self.get_elements()
             for el in elements:
-                if text and text in el.text: found = True; break
-                if resource_id and resource_id in el.resource_id: found = True; break
+                if text:
+                    target = text.lower()
+                    el_text = el.text.lower() if el.text else ""
+                    if target in el_text: found = True; break
+                if resource_id:
+                    target = resource_id.lower()
+                    el_res = el.resource_id.lower() if el.resource_id else ""
+                    if target in el_res: found = True; break
             if not found:
                 return True
             time.sleep(0.5)

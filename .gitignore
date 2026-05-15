@@ -9,5 +9,7 @@ window_dump.xml
 .pytest_cache/
 test-results/
 *.log
-# ignore images
+# ignore images and test reports
 screenshot_*.png
+REPORT.md
+test_results.json
