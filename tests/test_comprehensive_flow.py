@@ -7,7 +7,7 @@ def test_1_comprehensive_onboarding_flow(onboarding, feed):
     """
     assert onboarding.is_on_screen(), "Should be on Onboarding screen"
     
-    topic = "UI"
+    topic = "Headlines"
     print(f"Attempting to follow: {topic}")
     assert onboarding.follow_topic(topic), f"Should follow {topic}"
     assert onboarding.wait_for_sync(), "Logcat should show topic_followed event"

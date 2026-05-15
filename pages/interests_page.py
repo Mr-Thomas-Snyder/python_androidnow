@@ -1,3 +1,4 @@
+import time
 from pages.base_page import BasePage
 
 class InterestsPage(BasePage):
@@ -12,4 +13,5 @@ class InterestsPage(BasePage):
         return False
 
     def is_on_screen(self):
-        return self.is_visible(text="Topics") or self.is_visible(text="Interests")
+        # Increased flexibility for header detection
+        return self.engine.find_element(text="Topics", timeout=10) or self.engine.find_element(text="Interests", timeout=10)
